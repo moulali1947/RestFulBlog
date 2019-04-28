@@ -1,5 +1,5 @@
 # RESTful_BlogApp_v3
-A RESTfulBlog fullstack application using Node, express framework and cloud data( MongoDB ). A blog to post 
+A RESTfulBlog fullstack application using Node, express framework, cloud data( MongoDB ) and React at the front-end. A blog to post 
 stuff and comment your opinions.
 
 Getting set up :+1:
