@@ -7,7 +7,8 @@ Getting set up :+1:
 Before starting, make sure your computer has up-to-date versions of the following installed:
 1. Node
 2. Git
-3. Visual Studio Code/Any other editor
+3. MongoDB Atlas account
+4. Visual Studio Code/Any other editor
 
 ## Installing and opening the project
 1. Use Git & VS Code/Any other Editor for cloning and opening the project.
