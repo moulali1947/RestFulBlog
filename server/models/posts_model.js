@@ -7,7 +7,7 @@ let BlogSchema = mongoose.Schema({
   url: String,
   text: String,
   comments: [{ user: String,
-    comm:String }]
+    comm: String }]
 })
 // Store blog documents in a collection called "blogs"
 let blog = mongoose.model('blogs', BlogSchema)

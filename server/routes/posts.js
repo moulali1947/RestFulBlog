@@ -7,7 +7,6 @@ exports.getPosts = (req, res) => {
   })
 }
 exports.addPost = (req, res) => {
-  console.log(req.body)
   const newblog = new Blog({
     id: req.body.id,
     name: req.body.name,
@@ -17,7 +16,6 @@ exports.addPost = (req, res) => {
     text: req.body.text
   })
   newblog.save((err, docs) => {
-    console.log(docs)
     if (err)console.log(err)
     else {
       return res.json({ status: 'success' })

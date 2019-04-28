@@ -126,7 +126,6 @@ class Blog extends React.Component {
       'user': data.get('user'),
       'comm': data.get('comm')
     }
-    console.log(body)
     if (body.user !== '') {
       axios.post('http://localhost:3001/posts/' + id + '/comments',
         { body }).then(res => {
@@ -178,7 +177,6 @@ class Blog extends React.Component {
     }
     axios.post('http://localhost:3001/posts', body)
       .then((res) => {
-        console.log(res.status)
         if (res.status === 200) { alert('Blog Posted') } else { alert('Some error occurred') }
       }).catch(err => console.log(err))
     event.target.reset()
