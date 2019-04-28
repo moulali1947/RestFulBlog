@@ -1,0 +1,6 @@
+# modules went missing i.e., React,React-dom & scheduler => install or copy from other 
+project node_modules folder.
+
+# To start a new project just copy the node_modules and other project structure folders & files.
+
+# Make sure to add bootstrap.min.css file in index.html for proper rendering of css.
