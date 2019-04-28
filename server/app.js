@@ -7,7 +7,7 @@ var app = express()
 var cors = require('cors')
 // mongoose connection
 const mongoose = require('mongoose')
-let uri = 'mongodb+srv://admin:admin@cluster0-ewrsf.mongodb.net/Blog?retryWrites=true'
+let uri = 'Your MongoDB url'
 mongoose.connect(uri)
 let db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
