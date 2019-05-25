@@ -5,9 +5,10 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 var app = express()
 var cors = require('cors')
+require('dotenv').config()
 // mongoose connection
 const mongoose = require('mongoose')
-let uri = 'mongodb+srv://admin:admin@cluster0-ewrsf.mongodb.net/Blog?retryWrites=true'
+let uri = process.env.MONGODB_URI
 mongoose.connect(uri)
 let db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error:'))
