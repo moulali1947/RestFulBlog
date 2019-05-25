@@ -129,10 +129,10 @@ class Blog extends React.Component {
     if (body.user !== '') {
       axios.post('http://localhost:3001/posts/' + id + '/comments',
         { body }).then(res => {
-        if (res.status === 200) { alert('comments updated') } else { alert('some error occurred') }
+        if (res.status === 200) { window.alert('comments updated') } else { window.alert('some error occurred') }
         this.fetchData()
       }).catch(err => console.log(err))
-    } else { alert('please enter something') }
+    } else { window.alert('please enter something') }
     event.target.reset()
   }
   PostBlog () {
@@ -177,7 +177,7 @@ class Blog extends React.Component {
     }
     axios.post('http://localhost:3001/posts', body)
       .then((res) => {
-        if (res.status === 200) { alert('Blog Posted') } else { alert('Some error occurred') }
+        if (res.status === 200) { window.alert('Blog Posted') } else { window.alert('Some error occurred') }
       }).catch(err => console.log(err))
     event.target.reset()
   }
