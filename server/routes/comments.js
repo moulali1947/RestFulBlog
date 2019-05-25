@@ -1,8 +1,8 @@
 const blog = require('../models/posts_model')
 exports.addComment = (req, res) => {
-  const comment = {user:req.body.body.user,comm:req.body.body.comm} 
+  const comment = { user: req.body.body.user, comm: req.body.body.comm }
   const q = blog.updateOne({ id: req.params.postId },
-    { '$push': { 'comments': { $each:[comment] , $position: 0}} }
+    { '$push': { 'comments': { $each: [comment], $position: 0 } } }
   )
   q.exec((err, docs) => {
     if (err)console.log(err)
