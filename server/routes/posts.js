@@ -18,7 +18,7 @@ exports.addPost = (req, res) => {
   newblog.save((err, docs) => {
     if (err)console.log(err)
     else {
-      return res.json({ status: 'success' })
+      return res.json({ status: true })
     }
   })
 }
