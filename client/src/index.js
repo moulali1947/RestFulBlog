@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form'
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
 import './styles.css'
 import axios from 'axios'
+var serveradd = 'http://localhost:4000'
 class Blog extends React.Component {
   constructor (props) {
     super(props)
@@ -16,8 +17,11 @@ class Blog extends React.Component {
       value: '',
       form: '',
       formvalue: false,
-      lastid: ''
+      lastid: '',
+      loginStatus: false,
+      name: ''
     }
+    // Blog functions
     this.ShowthisBlog = this.ShowthisBlog.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -25,12 +29,42 @@ class Blog extends React.Component {
     this.fetchData = this.fetchData.bind(this)
     this.PostBlog = this.PostBlog.bind(this)
     this.PostBlogAPI = this.PostBlogAPI.bind(this)
+    // Facebook Authentication functions
+    this.logout = this.logout.bind(this)
   }
   componentDidMount () {
     this.fetchData()
+    /* This request will get user details from the server. If user is authentiated sucessfully
+  it will return a response with user details else it will throw error.
+  */
+    axios
+      .get('/user')
+      .then(res => {
+        console.log(res)
+        this.setState({ loginStatus: true, name: res.data.user.displayName })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+  logout () {
+    // This will logout user from the current session and delete the session.
+    this.Showthisfirst()
+    axios
+      .get('/logout')
+      .then(res => {
+        console.log(res)
+        if (res.status === 200) {
+          this.setState({ loginStatus: false, resdata: '', errormessage: '' })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        this.setState({ resdata: '', errormessage: '' })
+      })
   }
   fetchData () {
-    axios.get('http://localhost:3001/posts').then(res => {
+    axios.get(serveradd + '/posts').then(res => {
       const blogdata = res.data
       this.setState({ store: blogdata, lastid: blogdata.length })
 
@@ -70,7 +104,7 @@ class Blog extends React.Component {
               <Card.Body>
                 <div align='center'>
                   <Card.Title>{item.name}</Card.Title>
-                  <img src={item.url} />
+                  <img src={item.url} alt='error' />
                   <br /><br />
                   <Card.Subtitle className='mb-2 text-muted'>
                     {item.date.slice(0, 10)}
@@ -127,7 +161,7 @@ class Blog extends React.Component {
       'comm': data.get('comm')
     }
     if (body.user !== '') {
-      axios.post('http://localhost:3001/posts/' + id + '/comments',
+      axios.post(serveradd + '/posts/' + id + '/comments',
         { body }).then(res => {
         if (res.status === 200) { window.alert('comments updated') } else { window.alert('some error occurred') }
         this.fetchData()
@@ -175,9 +209,10 @@ class Blog extends React.Component {
       'url': data.get('url'),
       'text': data.get('text')
     }
-    axios.post('http://localhost:3001/posts', body)
+    axios.post(serveradd + '/posts', body)
       .then((res) => {
-        if (res.status === 200) { window.alert('Blog Posted') } else { window.alert('Some error occurred') }
+        console.log(res)
+        if (res.data.status) { window.alert('Blog Posted') } else { window.alert('Some error occurred') }
       }).catch(err => console.log(err))
     event.target.reset()
   }
@@ -186,9 +221,16 @@ class Blog extends React.Component {
       <div >
         <a href='http://localhost:3000'><h1 align='center'> RestFulBlog</h1></a>
         <ButtonToolbar id='RenderButton' >
-          <Button variant='primary' onClick={this.Showthisfirst} >Back</Button>
+          <Button variant='outline-primary' onClick={this.Showthisfirst} >Back</Button>
           &nbsp;&nbsp;&nbsp;
-          <Button variant='info' onClick={this.PostBlog} >Post a Blog</Button>
+          {this.state.loginStatus ? <div> <Button variant='outline-dark' onClick={this.PostBlog} >Post a Blog</Button>
+          </div> : <div><Button variant='outline-dark' onClick={this.PostBlog} disabled >Post a Blog</Button></div>}
+
+          &nbsp;&nbsp;
+          {this.state.loginStatus ? <b><Button variant='outline-success'>{this.state.name}</Button>
+          &nbsp;&nbsp;</b> : <Button href={serveradd + '/login'} variant='outline-success'>login</Button>}
+        &nbsp;&nbsp;
+          <Button variant='outline-danger' onClick={this.logout}>logout</Button><br /><br />
         </ButtonToolbar>
 
         {this.state.formvalue
