@@ -10,11 +10,10 @@ var auth = require('./controller/Auth')
 // mongoose connection
 const mongoose = require('mongoose')
 let uri = process.env.MONGODB_URI
-mongoose.connect(uri)
+mongoose.connect(uri, { useNewUrlParser: true })
 let db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error:'))
-db.once('open', console.log.bind(console, 'Connected to DB'))
-
+db.on('error', console.error.bind(console, '-----------------connection error:---------------'))
+db.once('open', console.log.bind(console, '------------------Connected to DB-----------------'))
 // allowing cors
 app.use(cors())
 // Invoking Facebook auth middleware for authenticating users.

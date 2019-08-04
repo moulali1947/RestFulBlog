@@ -4,7 +4,7 @@ let BlogSchema = mongoose.Schema({
   name: String,
   email: String,
   date: String,
-  url: String,
+  BlogImage: { data: Buffer, contentType: String },
   text: String,
   comments: [{ user: String,
     comm: String }]

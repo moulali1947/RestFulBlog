@@ -19,7 +19,10 @@ class Blog extends React.Component {
       formvalue: false,
       lastid: '',
       loginStatus: false,
-      name: ''
+      name: '',
+      // Image state objects
+      file: null
+      // myImage1: '' // show image selected
     }
     // Blog functions
     this.ShowthisBlog = this.ShowthisBlog.bind(this)
@@ -31,6 +34,8 @@ class Blog extends React.Component {
     this.PostBlogAPI = this.PostBlogAPI.bind(this)
     // Facebook Authentication functions
     this.logout = this.logout.bind(this)
+    // Image upload
+    this.onImageChange = this.onImageChange.bind(this)
   }
   componentDidMount () {
     this.fetchData()
@@ -169,6 +174,11 @@ class Blog extends React.Component {
     } else { window.alert('please enter something') }
     event.target.reset()
   }
+  onImageChange (e) {
+    this.setState({ file: e.target.files[0] })
+    // let url = URL.createObjectURL(e.target.files[0])
+    // this.setState({ myImage1: url })
+  }
   PostBlog () {
     this.setState({ formvalue: true })
     const formdata =
@@ -184,8 +194,8 @@ class Blog extends React.Component {
               <Form.Control type='email' name='email' placeholder='Enter Your Email.....' />
             </Form.Group>
             <Form.Group controlId='exampleForm.ControlInput1'>
-              <Form.Label>Blog Url</Form.Label>
-              <Form.Control type='text' name='url' placeholder='Enter Blog Url.....' />
+              <Form.Label>Blog Image</Form.Label>
+              <Form.Control type='file' name='BlogImage' onChange={this.onImageChange} placeholder='Enter Blog Image....' />
             </Form.Group>
             <Form.Group controlId='exampleForm.ControlTextarea1'>
               <Form.Label>Blog</Form.Label>
@@ -198,18 +208,26 @@ class Blog extends React.Component {
 
     this.setState({ form: formdata })
   }
-  PostBlogAPI (event) {
+   PostBlogAPI (event) {
     event.preventDefault()
     const data = new FormData(event.target)
-    const body = {
-      'id': this.state.lastid + 1,
-      'name': data.get('name'),
-      'date': new Date(),
-      'email': data.get('email'),
-      'url': data.get('url'),
-      'text': data.get('text')
+    // const body = {
+    //   'id': this.state.lastid + 1,
+    //   'name': data.get('name'),
+    //   'date': new Date(),
+    //   'email': data.get('email'),
+    //   // 'BlogImage': data.get('BlogImage'),
+    //   'file': this.state.file,
+    //   'text': data.get('text')
+    // }
+    var body= data
+    console.log("------------------------\n", body)
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
     }
-    axios.post(serveradd + '/posts', body)
+    axios.post(serveradd + '/posts', body, config)
       .then((res) => {
         console.log(res)
         if (res.data.status) { window.alert('Blog Posted') } else { window.alert('Some error occurred') }
