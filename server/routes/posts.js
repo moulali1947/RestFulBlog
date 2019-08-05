@@ -1,7 +1,5 @@
 const Blog = require('../models/posts_model')
-const path = require('path')
 const multer = require('multer')
-const fs = require('fs')
 
 // multer methods for saving images on the server side.
 const storage = multer.diskStorage({
@@ -16,6 +14,7 @@ const upload = multer({
   limits: { fileSize: 1000000 }
 }).single('file')
 
+// getPosts API to return the posts available in db.
 exports.getPosts = (req, res) => {
   const q = Blog.find({})
   q.exec((err, docs) => {
@@ -23,6 +22,8 @@ exports.getPosts = (req, res) => {
     return res.json(docs)
   })
 }
+
+// addPost API to add a new post.
 exports.addPost = (req, res) => {
   upload(req, res, function (err) {
     if (err instanceof multer.MulterError) {

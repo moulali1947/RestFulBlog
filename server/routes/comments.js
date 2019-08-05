@@ -1,4 +1,5 @@
 const blog = require('../models/posts_model')
+// addComment API to add a new comment to aparticular blog.
 exports.addComment = (req, res) => {
   const comment = { user: req.body.body.user, comm: req.body.body.comm }
   const q = blog.updateOne({ id: req.params.postId },
