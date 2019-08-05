@@ -1,4 +1,4 @@
-# RestFulBlogApp
+# RestFulBlog
 A blog application developed using Node, Express, MongoDB and React. A blog to post articles and comment your opinions.
 
 Getting set up :+1:
